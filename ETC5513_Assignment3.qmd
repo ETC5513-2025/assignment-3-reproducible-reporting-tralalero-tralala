@@ -4,6 +4,21 @@ format: pdf
 editor: visual
 ---
 
+```{r}
+library(tidyverse)
+epl_raw <- read.csv("data/epl_final.csv")
+epl_data <- epl_raw %>%
+  select(
+    Season,
+    HomeTeam, AwayTeam,
+    FullTimeHomeGoals, FullTimeAwayGoals,
+    FullTimeResult,
+    HomeShots, AwayShots
+  )
+
+```
+
+
 ## Executive Summary
 
 
