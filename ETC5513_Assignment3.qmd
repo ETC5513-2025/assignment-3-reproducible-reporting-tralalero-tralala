@@ -26,6 +26,38 @@ epl_data <- epl_raw %>%
 
 
 ## Methodology 
+```{r}
+# Show head of raw data
+epl_data %>%
+  head(5) %>%
+  kable(caption = "First 5 rows of the EPL processed dataset")
+
+epl_processed_method <- epl_data %>%
+  mutate(
+    TotalGoals = FullTimeHomeGoals + FullTimeAwayGoals,
+    TotalShots = HomeShots + AwayShots
+  )
+
+# Step 1: Summarise average shots per match by season
+summary_by_season <- epl_processed_method %>%
+  group_by(Season) %>%
+  summarise(
+    AvgShotsPerMatch = mean(TotalShots, na.rm = TRUE)
+  ) %>%
+  ungroup()
+
+# Step 2: Plot
+ggplot(summary_by_season, aes(x = Season, y = AvgShotsPerMatch, group = 1)) +
+  geom_line(color = "#0072B2", size = 1.2) +
+  geom_point(color = "#0072B2", size = 2) +
+  labs(
+    title = "Average Shots per Match in the EPL Over Time",
+    x = "Season",
+    y = "Average Shots per Match"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
 
 
 ## Results
