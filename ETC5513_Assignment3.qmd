@@ -18,14 +18,48 @@ epl_data <- epl_raw %>%
 
 ```
 
-
 ## Executive Summary
-
 
 ## Introduction
 
+## Methodology
 
-## Methodology 
+### Dataset Introduction
+
+```{r}
+# Create variable for total number of shots each game
+epl_processed_method <- epl_data %>%
+  mutate(TotalShots = HomeShots + AwayShots)
+
+# Summarise average shots per match by season
+summary_by_season <- epl_processed_method %>%
+  group_by(Season) %>%
+  summarise(AvgShotsPerMatch = mean(TotalShots, na.rm = TRUE))
+
+# Create line plot of total shots per game
+ggplot(summary_by_season, aes(x = Season, y = AvgShotsPerMatch, group = 1)) +
+  geom_line() +
+  labs(x = "Season",
+       y = "Average Shots per Match") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+As illustrated in **Figure 1** above, there has been a noticeable increase in the average number of shots taken by a team during an English Premier League (EPL) match over the past two decades. This trend indicates a potential shift in playstyle across the league, from traditionally balanced or defensive approaches to more aggressive, attack-oriented strategies. This study aims to determine whether adopting a more offense-oriented approach leads to improved team performance in the EPL.
+
+To explore this question, we use match-level data sourced from [Kaggle](https://www.kaggle.com/datasets/marcohuiii/english-premier-league-epl-match-data-2000-2025/data), covering EPL seasons from 2000/01 through 2024/25. From this dataset, we extracted key variables relevant to offensive output and team performance: `Season`, `HomeTeam`, `AwayTeam`, `FullTimeHomeGoals`, `FullTimeAwayGoals`, `FullTimeResult`, `HomeShots`, and `AwayShots` and 
+
+### Dataset Description
+
+The core of the analysis focuses on the most recent five seasons. For each team and season, we compute two summary metrics:
+
+1.  **Average Shots Per Game** = Total Shots / Total Matches
+2.  **Win Rate (%)** = (Total Wins / Total Matches) × 100
+
+These variables allow us to measure offensive intensity and performance respectively. A scatterplot of Win Rate against Average Shots Per Game is used to visualize whether more aggressive teams consistently outperform less aggressive ones in terms of match outcomes.
+
+Average shots per game is chosen as a proxy for offensive aggression, as it directly captures attacking intent regardless of actual goal conversion. Win rate is used to reflect season-level success, providing a consistent performance benchmark across teams and seasons.
+
 ```{r}
 library(kableExtra)
 # Show head of raw data
@@ -35,36 +69,9 @@ epl_data %>%
 ```
 
 shots over time
-```{r}
-epl_processed_method <- epl_data %>%
-  mutate(
-    TotalGoals = FullTimeHomeGoals + FullTimeAwayGoals,
-    TotalShots = HomeShots + AwayShots
-  )
-
-# Step 1: Summarise average shots per match by season
-summary_by_season <- epl_processed_method %>%
-  group_by(Season) %>%
-  summarise(
-    AvgShotsPerMatch = mean(TotalShots, na.rm = TRUE)
-  ) %>%
-  ungroup()
-
-# Step 2: Plot
-ggplot(summary_by_season, aes(x = Season, y = AvgShotsPerMatch, group = 1)) +
-  geom_line(color = "#0072B2", size = 1.2) +
-  geom_point(color = "#0072B2", size = 2) +
-  labs(
-    title = "Average Shots per Match in the EPL Over Time",
-    x = "Season",
-    y = "Average Shots per Match"
-  ) +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-```
-
 
 code prep for analysis
+
 ```{r}
 recent_seasons <- c("2019/20", "2020/21", "2021/22", "2022/23", "2023/24", "2024/25")
 # Filter to only include most recent seasons
@@ -106,8 +113,6 @@ team_season_summary <- team_match_data %>%
 
 ## Results
 
-
 ## Discussion,Conclusion & Recommendatinos
-
 
 ## References
