@@ -1,12 +1,24 @@
 ---
 title: "ETC5513-Assignment3"
-format: pdf
+format:
+  pdf:
+    toc: true
+number-sections: true
 editor: visual
 ---
 
 ```{r}
+#| message: false
+#| warning: false
+#| echo: false
+
+knitr::opts_chunk$set(message = FALSE,
+                      warning = FALSE,
+                      echo = FALSE)
+
 library(tidyverse)
 library(kableExtra)
+library(knitr)
 ```
 
 ```{r}
@@ -33,7 +45,11 @@ epl_recent <- epl_data %>%
 
 ### Dataset Introduction
 
+
 ```{r}
+#| label: fig-timeplot
+#| fig-cap: "Timeplot of Average Shots per Season in the EPL (2000/01–2024/25)"
+
 # Create variable for total number of shots each game
 epl_processed_method <- epl_data %>%
   mutate(TotalShots = HomeShots + AwayShots)
@@ -53,13 +69,17 @@ ggplot(summary_by_season, aes(x = Season, y = AvgShotsPerMatch, group = 1)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
-As illustrated in Figure 1, there has been a noticeable increase in the average number of shots taken per match by English Premier League (EPL) teams over the past two decades. This upward trend suggests a gradual shift in playstyle toward more attack-oriented strategies. This study aims to explore whether this offensive shift is actually linked to better team performance—or whether teams that remain more balanced or conservative may still perform just as well, or even better, amid changing league dynamics.
 
-We used match-level data sourced from Kaggle, covering EPL matches from the 2000/01 season through to 2024/25. From this full dataset, we extracted six variables relevant to offensive output and team performance: `Season`, `HomeTeam`, `AwayTeam`, `FullTimeResult`, `HomeShots`, and `AwayShots`. The processed dataset contained 9,380 observations across 25 seasons.
+As illustrated in @fig-timeplot, the average number of shots taken per match in the English Premier League (EPL) has steadily increased over the past two decades. This consistent rise suggests that teams are generating more shooting opportunities than in the past. Given this trend, the study investigates whether teams that take more shots tend to achieve better results across a season.
+
+We used match-level data sourced from [Kaggle](https://www.kaggle.com/datasets/marcohuiii/english-premier-league-epl-match-data-2000-2025/data), covering EPL matches from the 2000/01 season through to 2024/25. From the full dataset, we extracted six key variables related to match outcomes and shot frequency: `Season`, `HomeTeam`, `AwayTeam`, `FullTimeResult`, `HomeShots`, and `AwayShots`. After processing, the extracted dataset contained 9,380 observations across 25 seasons.
 
 ### Data Description and Analytical Approach
 
 ```{r}
+#| label: tbl-variabletable
+#| tbl-cap: Table of Variable Names for Constructed Dataset
+
 # Create a description table
 variable_description <- tibble::tibble(
   Variable = c("Season", "Team", "TotalMatches", "TotalShots", "TotalWins", 
@@ -78,13 +98,11 @@ kable(variable_description)
 
 ```
 
-For our analysis, we focused on the 10 most recent seasons (2015/16 to 2024/25) to reflect current tactical trends. Using this subset, we constructed a team-season-level dataset, where each observation represents one team’s performance in a single season (see Table 1). Two new variables were created to quantify offensive intensity and performance:
+For analysis, we focused on the 10 most recent seasons (2015/16 to 2024/25) to reflect current trends. Using this subset, we constructed a team-season-level dataset, where each observation represents one team’s performance in a given season. The final dataset includes 200 observations and 7 variables, described above in @tbl-variabletable.
 
--   **Average Shots Per Game:** This serves as a proxy for offensive aggression, indicating a team's intent to generate scoring opportunities rather than prioritize possession or minimize risk.
+We use **Win Rate Percent**, which is based only on number of wins, for our performance indicator because wins carry the most points in league standings and best indicate a team’s ability to outperform opponents.
 
--   **Win Rate Percent:** This metric considers only wins, rather than combining wins and draws, because wins are the most valuable outcome in league play. They contribute the highest number of points and best reflect a team's ability to consistently outperform opponents across a season.
-
-To assess the relationship between attacking play and performance, we plotted Win Rate Percent against Average Shots Per Game. Each point in the scatter plot represents one team’s season statistics, allowing us to visually evaluate whether higher offensive output corresponds to improved results.
+To explore the relationship between shot volume and success, we created a scatter plot of **Win Rate Percent** against **Average Shots Per Game**. Each point represents a team’s season, allowing us to visually assess whether teams that shoot more frequently also tend to win more matches.
 
 ## Results
 
