@@ -6,16 +6,23 @@ editor: visual
 
 ```{r}
 library(tidyverse)
-epl_raw <- read.csv("data/epl_final.csv")
-epl_data <- epl_raw %>%
-  select(
-    Season,
-    HomeTeam, AwayTeam,
-    FullTimeHomeGoals, FullTimeAwayGoals,
-    FullTimeResult,
-    HomeShots, AwayShots
-  )
+library(kableExtra)
+```
 
+```{r}
+# Import data and process
+epl_raw <- read.csv("data/epl_final.csv")
+
+epl_data <- epl_raw %>%
+  select(Season, HomeTeam, AwayTeam, FullTimeResult, HomeShots, AwayShots)
+
+
+# Filter to only include most recent seasons
+recent_seasons <- c("2015/16", "2016/17", "2017/18", "2018/19", "2019/20",
+                    "2020/21", "2021/22", "2022/23", "2023/24", "2024/25")
+
+epl_recent <- epl_data %>%
+  filter(Season %in% recent_seasons)
 ```
 
 ## Executive Summary
@@ -38,78 +45,46 @@ summary_by_season <- epl_processed_method %>%
 
 # Create line plot of total shots per game
 ggplot(summary_by_season, aes(x = Season, y = AvgShotsPerMatch, group = 1)) +
-  geom_line() +
-  labs(x = "Season",
-       y = "Average Shots per Match") +
+  geom_line(color = "darkblue", size = 1.1) + 
+  labs(
+    x = "Season",
+    y = "Average Shots per Match") +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
-As illustrated in **Figure 1** above, there has been a noticeable increase in the average number of shots taken by a team during an English Premier League (EPL) match over the past two decades. This trend indicates a potential shift in playstyle across the league, from traditionally balanced or defensive approaches to more aggressive, attack-oriented strategies. This study aims to determine whether adopting a more offense-oriented approach leads to improved team performance in the EPL.
+As illustrated in Figure 1, there has been a noticeable increase in the average number of shots taken per match by English Premier League (EPL) teams over the past two decades. This upward trend suggests a gradual shift in playstyle toward more attack-oriented strategies. This study aims to explore whether this offensive shift is actually linked to better team performance—or whether teams that remain more balanced or conservative may still perform just as well, or even better, amid changing league dynamics.
 
-To explore this question, we use match-level data sourced from [Kaggle](https://www.kaggle.com/datasets/marcohuiii/english-premier-league-epl-match-data-2000-2025/data), covering EPL seasons from 2000/01 through 2024/25. From this dataset, we extracted key variables relevant to offensive output and team performance: `Season`, `HomeTeam`, `AwayTeam`, `FullTimeHomeGoals`, `FullTimeAwayGoals`, `FullTimeResult`, `HomeShots`, and `AwayShots` and 
+We used match-level data sourced from Kaggle, covering EPL matches from the 2000/01 season through to 2024/25. From this full dataset, we extracted six variables relevant to offensive output and team performance: `Season`, `HomeTeam`, `AwayTeam`, `FullTimeResult`, `HomeShots`, and `AwayShots`. The processed dataset contained 9,380 observations across 25 seasons.
 
-### Dataset Description
-
-The core of the analysis focuses on the most recent five seasons. For each team and season, we compute two summary metrics:
-
-1.  **Average Shots Per Game** = Total Shots / Total Matches
-2.  **Win Rate (%)** = (Total Wins / Total Matches) × 100
-
-These variables allow us to measure offensive intensity and performance respectively. A scatterplot of Win Rate against Average Shots Per Game is used to visualize whether more aggressive teams consistently outperform less aggressive ones in terms of match outcomes.
-
-Average shots per game is chosen as a proxy for offensive aggression, as it directly captures attacking intent regardless of actual goal conversion. Win rate is used to reflect season-level success, providing a consistent performance benchmark across teams and seasons.
+### Data Description and Analytical Approach
 
 ```{r}
-library(kableExtra)
-# Show head of raw data
-epl_data %>%
-  head(5) %>%
-  kable(caption = "First 5 rows of the EPL processed dataset")
+# Create a description table
+variable_description <- tibble::tibble(
+  Variable = c("Season", "Team", "TotalMatches", "TotalShots", "TotalWins", 
+               "AvgShotsPerGame", "WinRatePercent"),
+  
+  Description = c(
+    "The English Premier League season (e.g., '2015/16')",
+    "Name of the football team",
+    "Total number of matches played by the team that season",
+    "Total number of shots taken by the team across the season",
+    "Total number of wins recorded by the team that season",
+    "Average number of shots made by the team each game in that season",
+    "Win rate percentage (TotalWins / TotalMatches * 100)"))
+
+kable(variable_description)
+
 ```
 
-shots over time
+For our analysis, we focused on the 10 most recent seasons (2015/16 to 2024/25) to reflect current tactical trends. Using this subset, we constructed a team-season-level dataset, where each observation represents one team’s performance in a single season (see Table 1). Two new variables were created to quantify offensive intensity and performance:
 
-code prep for analysis
+-   **Average Shots Per Game:** This serves as a proxy for offensive aggression, indicating a team's intent to generate scoring opportunities rather than prioritize possession or minimize risk.
 
-```{r}
-recent_seasons <- c("2019/20", "2020/21", "2021/22", "2022/23", "2023/24", "2024/25")
-# Filter to only include most recent seasons
-epl_recent <- epl_data %>%
-  filter(Season %in% recent_seasons)
+-   **Win Rate Percent:** This metric considers only wins, rather than combining wins and draws, because wins are the most valuable outcome in league play. They contribute the highest number of points and best reflect a team's ability to consistently outperform opponents across a season.
 
-# Get stats for home games
-home_stats <- epl_recent %>%
-  mutate(
-    Team = HomeTeam,
-    Shots = HomeShots,
-    Win = ifelse(FullTimeResult == "H", 1, 0)
-  ) %>%
-  select(Season, Team, Shots, Win)
-
-# Get stats for away games
-away_stats <- epl_recent %>%
-  mutate(
-    Team = AwayTeam,
-    Shots = AwayShots,
-    Win = ifelse(FullTimeResult == "A", 1, 0)
-  ) %>%
-  select(Season, Team, Shots, Win)
-
-# Combine datasets for home and away stats
-team_match_data <- bind_rows(home_stats, away_stats)
-
-team_season_summary <- team_match_data %>%
-  group_by(Season, Team) %>%
-  summarise(
-    TotalMatches = n(),
-    TotalShots = sum(Shots, na.rm = TRUE),
-    TotalWins = sum(Win, na.rm = TRUE),
-    AvgShotsPerGame = TotalShots / TotalMatches,
-    WinRatePercent = 100 * TotalWins / TotalMatches
-  ) %>%
-  ungroup()
-```
+To assess the relationship between attacking play and performance, we plotted Win Rate Percent against Average Shots Per Game. Each point in the scatter plot represents one team’s season statistics, allowing us to visually evaluate whether higher offensive output corresponds to improved results.
 
 ## Results
 
