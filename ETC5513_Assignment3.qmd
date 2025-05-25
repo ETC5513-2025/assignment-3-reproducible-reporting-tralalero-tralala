@@ -45,7 +45,6 @@ epl_recent <- epl_data %>%
 
 ### Dataset Introduction
 
-
 ```{r}
 #| label: fig-timeplot
 #| fig-cap: "Timeplot of Average Shots per Season in the EPL (2000/01–2024/25)"
@@ -68,7 +67,6 @@ ggplot(summary_by_season, aes(x = Season, y = AvgShotsPerMatch, group = 1)) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
-
 
 As illustrated in @fig-timeplot, the average number of shots taken per match in the English Premier League (EPL) has steadily increased over the past two decades. This consistent rise suggests that teams are generating more shooting opportunities than in the past. Given this trend, the study investigates whether teams that take more shots tend to achieve better results across a season.
 
