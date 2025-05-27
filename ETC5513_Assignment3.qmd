@@ -6,6 +6,10 @@ editor: visual
 
 ```{r}
 library(tidyverse)
+library(ggplot2)
+library(Polychrome)
+library(scales)
+
 epl_raw <- read.csv("data/epl_final.csv")
 epl_data <- epl_raw %>%
   select(
@@ -81,6 +85,44 @@ team_season_summary <- team_match_data %>%
   ungroup()
 ```
 
-## Discussion,Conclusion & Recommendatinons
+```{r}
+# Facet Plot to compare the Average Shos taken vs Win rate per season by each team
+
+# Number of Teams:
+number_of_teams <- length(unique(team_season_summary$Team))
+# Creating color palette:
+distinct_team_colors <- createPalette(number_of_teams,  seedcolors = c("#000000", "#FFFFFF"))
+
+# Assign team names as names of the color vector
+names(distinct_team_colors) <- unique(team_season_summary$Team)
+
+ggplot(
+  team_season_summary,
+  aes(x = AvgShotsPerGame, 
+      y = WinRatePercent, 
+      color = Team)) +
+  geom_point(size = 2, alpha = 0.85) +
+  facet_wrap(~ Season, scales = "free_x") +
+  scale_color_manual(values = distinct_team_colors) +
+   scale_x_continuous(labels = number_format(accuracy = 1)) +
+  scale_y_continuous(labels = number_format(accuracy = 1)) +
+  labs(
+    title = "Average Shots vs Win Rate by Season",
+    x = "Average Shots Per Game",
+    y = "Win Rate (%)",
+    color = "Team"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(
+    hjust = 1, size = 6
+      ),
+    axis.text.y =  element_text(
+      hjust = 1, size = 6
+      )
+    )
+```
+
+## Discussion,Conclusion & Recommendations
 
 ## References
