@@ -36,4 +36,8 @@ This analysis demonstrate that EPL teams that produce more shots per game are mo
 
 ## Recommendations
 
+-   Further Analysis: We can include more variables like defensive errors, actual goals, quality of shots, etc. to improve our model.
+
+-   Top Performers: We can also compare the outliers and other team (Top performing teams) to see the patterns of abnormality.
+
 ## References
