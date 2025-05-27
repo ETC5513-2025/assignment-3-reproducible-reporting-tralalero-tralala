@@ -41,3 +41,7 @@ This analysis demonstrate that EPL teams that produce more shots per game are mo
 -   Top Performers: We can also compare the outliers and other team (Top performing teams) to see the patterns of abnormality.
 
 ## References
+
+\[1\] createPalette: Creating New Color Palettes, Rdocumentation.org, <https://www.rdocumentation.org/packages/Polychrome/versions/1.5.4/topics/createPalette>
+
+\[2\] Lay out Panels in a grid, <https://ggplot2.tidyverse.org/reference/facet_grid.html>
