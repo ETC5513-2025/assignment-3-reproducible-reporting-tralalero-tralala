@@ -18,20 +18,18 @@ epl_data <- epl_raw %>%
 
 ```
 
-
 ## Executive Summary
-
 
 ## Introduction
 
-
-## Methodology 
-
+## Methodology
 
 ## Results
 
+## Discussion
 
-## Discussion,Conclusion & Recommendatinos
+The analysis examined the relationship between the average number of shots made by a team and the win rate of the team across different seasons. The findings from our visual analysis reveals that there is a positive relationship between the average shots and win rate. But, we can also see that there are several outliers as well which shows that there are some teams which even though attempting more shots were unable to win the matches. This also indicates that we will require more data to give precise analysis on the win rate for a team as the quantity of the shots may not be enough to give accurate results. We can look into the factors which specify the quality of shots as well.
 
+## Conclusion & Recommendations
 
 ## References
