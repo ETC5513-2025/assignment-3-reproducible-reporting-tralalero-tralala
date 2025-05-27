@@ -193,6 +193,14 @@ The above visualization in @fig-facetplot, we can see the relationship between t
 
 In @fig-facetplot, we can see that across all seasons, there is a positive trend : **teams that attempt more shots per game generally achieve higher win rates**. But, there are some case scenarios as well where a team has attempted more shots but have had a lower win rate, e.g., Liverpool in 2023/24 season attempted 21 shots on an average but had lesser win rate in comparison to Man City who have attempted only 18 shots on an average.
 
-## Discussion,Conclusion & Recommendatinos
+## Discussions, Conclusions & Recommendations
 
-## References
+The findings from our visual analysis reveals that there is a positive relationship between the average shots and win rate. But, we can also see that there are several outliers as well which shows that there are some teams which even though attempting more shots did not achieve a higher win rate. This indicates that the number of shots a team makes is not the only factor that determines its performance in the league. The quantity of the shots may not be enough to give accurate results. We can look into the factors which specify the quality of shots as well.
+
+This analysis demonstrate that EPL teams that produce more shots per game are more likely to achieve higher win rates. While the relationship is not absolute, the patter is strong enough to highlight that the offensive strategies for the teams are a good way for a season long success.
+
+-   Further Analysis: We can include more variables like defensive errors, actual goals, quality of shots, etc. to improve our model.
+
+-   Top Performers: We can also compare the outliers and other team (Top performing teams) to see the patterns of abnormality.
+
+### References
