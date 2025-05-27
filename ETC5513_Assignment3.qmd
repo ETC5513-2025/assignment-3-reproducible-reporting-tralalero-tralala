@@ -86,6 +86,8 @@ team_season_summary <- team_match_data %>%
 ```
 
 ```{r}
+#| label: fig-facetplot
+#| fig-cap: "Average Shots vs Win Rate by Season"
 # Facet Plot to compare the Average Shos taken vs Win rate per season by each team
 
 # Number of Teams:
@@ -119,10 +121,19 @@ ggplot(
       ),
     axis.text.y =  element_text(
       hjust = 1, size = 6
-      )
+      ),
+    plot.title =  element_text(
+      size = 10, face = "bold"
+      ),
+    legend.text = element_text(size = 5),
+    legend.title = element_text(size = 6, face = "bold")
     )
 ```
 
-## Discussion,Conclusion & Recommendations
+The above visualization in @fig-facetplot, we can see the relationship between the average number of shots and the winning rate of the EPL Teams across multiple seasons. We have 34 unique teams in our data and we have given distinct colors for all the teams. The scatter plot is comparing the Average Shots Per Game vs Wining rate of the teams.
+
+In @fig-facetplot, we can see that across all seasons, there is a positive trend : **teams that attempt more shots per game generally achieve higher win rates**. But, there are some case scenarios as well where a team has attempted more shots but have had a lower win rate, e.g., Liverpool in 20023/24 season attempted 21 shots on an average but had lesser win rate in comparison to Man City who have attempted only 18 shots on an average.
+
+## Discussion,Conclusions & Recommendations
 
 ## References
