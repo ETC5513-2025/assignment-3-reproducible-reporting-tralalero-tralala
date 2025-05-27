@@ -1,25 +1,44 @@
 ---
 title: "ETC5513-Assignment3"
-format: pdf
+format:
+  pdf:
+    toc: true
+number-sections: true
 editor: visual
 ---
 
 ```{r}
+#| message: false
+#| warning: false
+#| echo: false
+
 library(tidyverse)
 library(ggplot2)
 library(Polychrome)
 library(scales)
+library(kableExtra)
+library(knitr)
 
+knitr::opts_chunk$set(message = FALSE,
+                      warning = FALSE,
+                      echo = FALSE)
+```
+
+
+```{r}
+# Import data and filtering the variables
 epl_raw <- read.csv("data/epl_final.csv")
-epl_data <- epl_raw %>%
-  select(
-    Season,
-    HomeTeam, AwayTeam,
-    FullTimeHomeGoals, FullTimeAwayGoals,
-    FullTimeResult,
-    HomeShots, AwayShots
-  )
 
+epl_data <- epl_raw %>%
+  select(Season, HomeTeam, AwayTeam, FullTimeResult, HomeShots, AwayShots)
+
+
+# Filter to only include most recent seasons
+recent_seasons <- c("2015/16", "2016/17", "2017/18", "2018/19", "2019/20",
+                    "2020/21", "2021/22", "2022/23", "2023/24", "2024/25")
+
+epl_recent <- epl_data %>%
+  filter(Season %in% recent_seasons)
 ```
 
 ## Executive Summary
@@ -28,30 +47,69 @@ epl_data <- epl_raw %>%
 
 ## Methodology
 
+### Dataset Introduction
+
+```{r}
+#| label: fig-timeplot
+#| fig-cap: "Timeplot of Average Shots per Season in the EPL (2000/01–2024/25)"
+
+# Create variable for total number of shots each game
+epl_processed_method <- epl_data %>%
+  mutate(TotalShots = HomeShots + AwayShots)
+
+# Summarise average shots per match by season
+summary_by_season <- epl_processed_method %>%
+  group_by(Season) %>%
+  summarise(AvgShotsPerMatch = mean(TotalShots, na.rm = TRUE))
+
+# Create line plot of total shots per game
+ggplot(summary_by_season, aes(x = Season, y = AvgShotsPerMatch, group = 1)) +
+  geom_line(color = "darkblue", size = 1.1) + 
+  labs(
+    x = "Season",
+    y = "Average Shots per Match") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+
+As illustrated in @fig-timeplot, the average number of shots taken per match in the English Premier League (EPL) has steadily increased over the past two decades. This consistent rise suggests that teams are generating more shooting opportunities than in the past. Given this trend, the study investigates whether teams that take more shots tend to achieve better results across a season.
+
+We used match-level data sourced from [Kaggle](https://www.kaggle.com/datasets/marcohuiii/english-premier-league-epl-match-data-2000-2025/data), covering EPL matches from the 2000/01 season through to 2024/25. From the full dataset, we extracted six key variables related to match outcomes and shot frequency: `Season`, `HomeTeam`, `AwayTeam`, `FullTimeResult`, `HomeShots`, and `AwayShots`. After processing, the extracted dataset contained 9,380 observations across 25 seasons.
+
+### Data Description and Analytical Approach
+
+```{r}
+#| label: tbl-variabletable
+#| tbl-cap: Table of Variable Names for Constructed Dataset
+
+# Create a description table
+variable_description <- tibble::tibble(
+  Variable = c("Season", "Team", "TotalMatches", "TotalShots", "TotalWins", 
+               "AvgShotsPerGame", "WinRatePercent"),
+  
+  Description = c(
+    "The English Premier League season (e.g., '2015/16')",
+    "Name of the football team",
+    "Total number of matches played by the team that season",
+    "Total number of shots taken by the team across the season",
+    "Total number of wins recorded by the team that season",
+    "Average number of shots made by the team each game in that season",
+    "Win rate percentage (TotalWins / TotalMatches * 100)"))
+
+kable(variable_description)
+
+```
+
+For analysis, we focused on the 10 most recent seasons (2015/16 to 2024/25) to reflect current trends. Using this subset, we constructed a team-season-level dataset, where each observation represents one team’s performance in a given season. The final dataset includes 200 observations and 7 variables, described above in @tbl-variabletable.
+
+We use **Win Rate Percent**, which is based only on number of wins, for our performance indicator because wins carry the most points in league standings and best indicate a team’s ability to outperform opponents.
+
+To explore the relationship between shot volume and success, we created a scatter plot of **Win Rate Percent** against **Average Shots Per Game**. Each point represents a team’s season, allowing us to visually assess whether teams that shoot more frequently also tend to win more matches.
+
 ## Results
 
 ```{r}
-# Import data and process
-epl_raw <- read.csv("data/epl_final.csv")
-
-# Selecting the Columns relevant to analysis 
-epl_data <- epl_raw %>%
-  select(
-    Season, 
-    HomeTeam, 
-    AwayTeam, 
-    FullTimeResult, 
-    HomeShots, 
-    AwayShots
-    )
-
-# Filter to only include most recent seasons
-recent_seasons <- c("2015/16", "2016/17", "2017/18", "2018/19", "2019/20",
-                    "2020/21", "2021/22", "2022/23", "2023/24", "2024/25")
-
-epl_recent <- epl_data %>%
-  filter(Season %in% recent_seasons)
-
 # Get stats for home games
 home_stats <- epl_recent %>%
   mutate(
@@ -93,7 +151,8 @@ team_season_summary <- team_match_data %>%
 # Number of Teams:
 number_of_teams <- length(unique(team_season_summary$Team))
 # Creating color palette:
-distinct_team_colors <- createPalette(number_of_teams,  seedcolors = c("#000000", "#FFFFFF"))
+distinct_team_colors <- createPalette(number_of_teams,  
+                                      seedcolors = c("#000000", "#FFFFFF"))
 
 # Assign team names as names of the color vector
 names(distinct_team_colors) <- unique(team_season_summary$Team)
@@ -132,8 +191,8 @@ ggplot(
 
 The above visualization in @fig-facetplot, we can see the relationship between the average number of shots and the winning rate of the EPL Teams across multiple seasons. We have 34 unique teams in our data and we have given distinct colors for all the teams. The scatter plot is comparing the Average Shots Per Game vs Wining rate of the teams.
 
-In @fig-facetplot, we can see that across all seasons, there is a positive trend : **teams that attempt more shots per game generally achieve higher win rates**. But, there are some case scenarios as well where a team has attempted more shots but have had a lower win rate, e.g., Liverpool in 20023/24 season attempted 21 shots on an average but had lesser win rate in comparison to Man City who have attempted only 18 shots on an average.
+In @fig-facetplot, we can see that across all seasons, there is a positive trend : **teams that attempt more shots per game generally achieve higher win rates**. But, there are some case scenarios as well where a team has attempted more shots but have had a lower win rate, e.g., Liverpool in 2023/24 season attempted 21 shots on an average but had lesser win rate in comparison to Man City who have attempted only 18 shots on an average.
 
-## Discussion,Conclusions & Recommendations
+## Discussion,Conclusion & Recommendatinos
 
 ## References
