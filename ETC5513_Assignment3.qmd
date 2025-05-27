@@ -18,20 +18,69 @@ epl_data <- epl_raw %>%
 
 ```
 
-
 ## Executive Summary
-
 
 ## Introduction
 
-
-## Methodology 
-
+## Methodology
 
 ## Results
 
+```{r}
+# Import data and process
+epl_raw <- read.csv("data/epl_final.csv")
 
-## Discussion,Conclusion & Recommendatinos
+# Selecting the Columns relevant to analysis 
+epl_data <- epl_raw %>%
+  select(
+    Season, 
+    HomeTeam, 
+    AwayTeam, 
+    FullTimeResult, 
+    HomeShots, 
+    AwayShots
+    )
 
+# Filter to only include most recent seasons
+recent_seasons <- c("2015/16", "2016/17", "2017/18", "2018/19", "2019/20",
+                    "2020/21", "2021/22", "2022/23", "2023/24", "2024/25")
+
+epl_recent <- epl_data %>%
+  filter(Season %in% recent_seasons)
+
+# Get stats for home games
+home_stats <- epl_recent %>%
+  mutate(
+    Team = HomeTeam,
+    Shots = HomeShots,
+    Win = ifelse(FullTimeResult == "H", 1, 0)
+  ) %>%
+  select(Season, Team, Shots, Win)
+
+# Get stats for away games
+away_stats <- epl_recent %>%
+  mutate(
+    Team = AwayTeam,
+    Shots = AwayShots,
+    Win = ifelse(FullTimeResult == "A", 1, 0)
+  ) %>%
+  select(Season, Team, Shots, Win)
+
+# Combine datasets for home and away stats
+team_match_data <- bind_rows(home_stats, away_stats)
+
+team_season_summary <- team_match_data %>%
+  group_by(Season, Team) %>%
+  summarise(
+    TotalMatches = n(),
+    TotalShots = sum(Shots, na.rm = TRUE),
+    TotalWins = sum(Win, na.rm = TRUE),
+    AvgShotsPerGame = TotalShots / TotalMatches,
+    WinRatePercent = 100 * TotalWins / TotalMatches
+  ) %>%
+  ungroup()
+```
+
+## Discussion,Conclusion & Recommendatinons
 
 ## References
