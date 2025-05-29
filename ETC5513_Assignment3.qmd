@@ -11,7 +11,7 @@ editor: visual
 #| message: false
 #| warning: false
 #| echo: false
-
+install.packages("Polychrome")
 library(tidyverse)
 library(ggplot2)
 library(Polychrome)

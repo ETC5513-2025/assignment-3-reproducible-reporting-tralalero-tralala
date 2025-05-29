@@ -1,0 +1,52 @@
+---
+title: 'Assignment3'
+format: pptx
+editor: visual
+## A slide with smaller text {.smaller}
+---
+
+## Shooting to Win
+
+ETC5513 AT3
+
+GEN SHENG GOH 、Bhavi Singh、Zhuo Zhang
+
+------------------------------------------------------------------------
+
+------------------------------------------------------------------------
+
+## CONTENT
+
+1.Executive Summary
+
+2.Introduction
+
+3\. Methodology
+
+4.Results
+
+5.Discussion, Conclusion & Recommendations
+
+6.References
+
+------------------------------------------------------------------------
+
+## Executive Summary
+
+This study examines whether a higher average number of shots per game leads to better team performance in the English Premier League (EPL). Using match-level data from the 2000/01 to 2024/25 seasons, we focus on the most recent decade to analyze the relationship between shot volume and win rate.
+
+Our results show a generally positive correlation—teams that shoot more often tend to win more matches. However, exceptions exist, suggesting that while offensive intensity helps, it does not guarantee success.
+
+------------------------------------------------------------------------
+
+------------------------------------------------------------------------
+
+## Introduction
+
+Over the past two decades, the English Premier League (EPL) has undergone significant tactical transformation. Many clubs have shifted from traditionally balanced or defensive systems toward more aggressive, attack-oriented approaches. This evolution is visible in match statistics, with an upward trend in the average number of shots taken per game. Shots are commonly used as a proxy for offensive intent, and their increase suggests a broader strategic emphasis on attacking play.
+
+------------------------------------------------------------------------
+
+## Introduction
+
+However, while modern football increasingly prioritizes creating scoring opportunities, it remains unclear whether more aggressive offensive styles consistently yield better outcomes. Do teams that take more shots necessarily win more matches, or can success also be achieved through more conservative or balanced approaches. This study seeks to explore the relationship between offensive output and team performance in the EPL. Specifically, we investigate whether a higher average number of shots per game correlates with a higher win rate across seasons.
