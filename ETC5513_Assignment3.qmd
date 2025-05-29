@@ -4,6 +4,7 @@ format:
   pdf:
     toc: true
 number-sections: true
+bibliography: references.bib
 editor: visual
 ---
 
@@ -109,7 +110,7 @@ For analysis, we focused on the 10 most recent seasons (2015/16 to 2024/25) to r
 
 We use **Win Rate Percent**, which is based only on number of wins, for our performance indicator because wins carry the most points in league standings and best indicate a team’s ability to outperform opponents.
 
-To explore the relationship between shot volume and success, we created a scatter plot of **Win Rate Percent** against **Average Shots Per Game**. Each point represents a team’s season, allowing us to visually assess whether teams that shoot more frequently also tend to win more matches.
+To explore the relationship between shot volume and success, we created a scatter plot of **Win Rate Percent** against **Average Shots Per Game**. Each point represents a team’s season, allowing us to visually assess whether teams that shoot more frequently also tend to win more matches @lepschy2018successful.
 
 ## Results
 
