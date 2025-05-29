@@ -10,3 +10,37 @@ format:
 editor: visual
 ---
 
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+
+library(tidyverse)
+library(ggplot2)
+library(scales)
+library(kableExtra)
+library(knitr)
+
+knitr::opts_chunk$set(message = FALSE,
+                      warning = FALSE,
+                      echo = FALSE)
+```
+
+```{r}
+# Import data and filtering the variables
+epl_raw <- read.csv("data/epl_final.csv")
+
+epl_data <- epl_raw %>%
+  select(Season, HomeTeam, AwayTeam, FullTimeResult, HomeShots, AwayShots)
+
+
+# Filter to only include most recent seasons
+recent_seasons <- c("2015/16", "2016/17", "2017/18", "2018/19", "2019/20",
+                    "2020/21", "2021/22", "2022/23", "2023/24", "2024/25")
+
+epl_recent <- epl_data %>%
+  filter(Season %in% recent_seasons)
+```
+
+
+
