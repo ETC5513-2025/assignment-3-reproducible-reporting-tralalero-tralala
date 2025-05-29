@@ -145,3 +145,10 @@ ggplot(
 
 ## Conclusions
 
+-   Analysis reveals a **strong positive relationship** between **average shots per game** and **win rate** among EPL Teams.
+
+-   Teams that generate more shots generally see better results over a season, which highlights the importance of **attacking strategies** leading the teams to success.
+
+-   While not perfectly linear, the trend is **consistent and meaningful** across all seasons.
+
+-   To enhance the analysis, we can consider adding **more variables** like shot quality or defensive metrics for an even deeper understanding.
