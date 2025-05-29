@@ -48,8 +48,7 @@ This study examines whether a higher average number of shots per game leads to b
 
 Over the past two decades, the English Premier League (EPL) has undergone significant tactical transformation. Many clubs have shifted from traditionally balanced or defensive systems toward more aggressive, attack-oriented approaches. This evolution is visible in match statistics, with an upward trend in the average number of shots taken per game. Shots are commonly used as a proxy for offensive intent, and their increase suggests a broader strategic emphasis on attacking play.
 
-However, while modern football increasingly prioritizes creating scoring opportunities, it remains unclear whether more aggressive offensive styles consistently yield better outcomes. Do teams that take more shots necessarily win more matches, or can success also be achieved through more conservative or balanced approaches. This study seeks to explore the relationship between offensive output and team performance in the EPL. Specifically, we investigate whether a higher average number of shots per game correlates with a higher win rate across seasons. 
-
+However, while modern football increasingly prioritizes creating scoring opportunities, it remains unclear whether more aggressive offensive styles consistently yield better outcomes. Do teams that take more shots necessarily win more matches, or can success also be achieved through more conservative or balanced approaches. This study seeks to explore the relationship between offensive output and team performance in the EPL. Specifically, we investigate whether a higher average number of shots per game correlates with a higher win rate across seasons.
 
 ## Methodology
 
@@ -204,9 +203,8 @@ Our visual analysis indicates a clear positive relationship between a team's ave
 
 Overall, the findings support the idea that teams generating more shots tend to perform better over the course of a season. Although the relationship is not perfectly linear, the pattern is strong enough to suggest that offensive strategies play a key role in sustained success.
 
-- **Further Analysis:** Incorporating additional variables such as defensive errors, actual goals scored, and shot quality metrics could provide a more comprehensive understanding of team performance.
+-   **Further Analysis:** Incorporating additional variables such as defensive errors, actual goals scored, and shot quality metrics could provide a more comprehensive understanding of team performance.
 
-- **Top Performers & Outliers:** Comparing high-performing teams and statistical outliers may reveal unique strategies or inefficiencies that explain deviations from the overall trend.
+-   **Top Performers & Outliers:** Comparing high-performing teams and statistical outliers may reveal unique strategies or inefficiencies that explain deviations from the overall trend.
 
 ### References
-

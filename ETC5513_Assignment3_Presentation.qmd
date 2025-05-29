@@ -1,1 +1,12 @@
+---
+title: "Your Presentation Title"
+author: "Zhuo Zhang, Bhavi Singh, Gen Sheng Goh"
+format:
+  revealjs:
+    theme: solarized
+    transition: fade
+    slide-number: true
+    incremental: true
+editor: visual
+---
 
