@@ -1,5 +1,5 @@
 ---
-title: "Your Presentation Title"
+title: "Tralalero Tralala"
 author: "Zhuo Zhang, Bhavi Singh, Gen Sheng Goh"
 format:
   revealjs:
@@ -41,45 +41,39 @@ epl_recent <- epl_data %>%
   filter(Season %in% recent_seasons)
 ```
 
-## \## Shooting to Win
 
-Shooting to Win
+## Problem Introduction {.smaller}
+```{r, fig.align='center', out.width="80%", echo=FALSE, message=FALSE, warning=FALSE}
+# Create variable for total number of shots each game
+epl_processed_method <- epl_data %>%
+  mutate(TotalShots = HomeShots + AwayShots)
 
-ETC5513 AT3
+# Summarise average shots per match by season
+summary_by_season <- epl_processed_method %>%
+  group_by(Season) %>%
+  summarise(AvgShotsPerMatch = mean(TotalShots, na.rm = TRUE))
 
-GEN SHENG GOH 、Bhavi Singh、Zhuo Zhang
-
----
-
-
-## CONTENT
-
-1.Executive Summary
-2.Introduction
-3. Methodology
-4.Results 
-5.Discussion, Conclusion &  Recommendatinos 
-6.References
+# Create line plot of total shots per game
+ggplot(summary_by_season, aes(x = Season, y = AvgShotsPerMatch, group = 1)) +
+  geom_line(color = "darkblue", size = 1.1) + 
+  labs(
+    x = "Season",
+    y = "Average Shots per Match") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
 
 
----
-## Executive Summary {.slide data-background-color="pink"}
+Over the last two decades, the English Premier League (EPL) has seen a clear tactical shift — teams are taking more shots per game than ever before.
 
-This study examines whether a higher average number of shots per game leads to better team performance in the English Premier League (EPL). Using match-level data from the 2000/01 to 2024/25 seasons, we focus on the most recent decade to analyze the relationship between shot volume and win rate. 
-- Our results show a generally positive correlation—teams that shoot more often tend to win more matches. However, exceptions exist, suggesting that while offensive intensity helps, it does not guarantee success.
+This rise in shot volume reflects a growing emphasis on attacking play and offensive intensity.
 
----
+**But is this always a good thing?**
 
-## Introduction {.slide data-background-color="pink"}
-
-Over the past two decades, the English Premier League (EPL) has undergone significant tactical transformation. Many clubs have shifted from traditionally balanced or defensive systems toward more aggressive, attack-oriented approaches. This evolution is visible in match statistics, with an upward trend in the average number of shots taken per game. Shots are commonly used as a proxy for offensive intent, and their increase suggests a broader strategic emphasis on attacking play.
+This study investigates whether teams that take more shots actually perform better — or if aggressive playstyles are not necessarily rewarded with more wins
 
 ---
 
-## Introduction {.slide data-background-color="pink"}
-
-However, while modern football increasingly prioritizes creating scoring opportunities, it remains unclear whether more aggressive offensive styles consistently yield better outcomes. Do teams that take more shots necessarily win more matches, or can success also be achieved through more conservative or balanced approaches. This study seeks to explore the relationship between offensive output and team performance in the EPL. Specifically, we investigate whether a higher average number of shots per game correlates with a higher win rate across seasons.
----
 ## Dataset Overview
 
 ::: columns
