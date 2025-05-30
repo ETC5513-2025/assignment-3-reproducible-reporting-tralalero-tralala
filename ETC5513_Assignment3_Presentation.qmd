@@ -1,11 +1,4 @@
 ---
-<<<<<<< HEAD
-title: 'ASSIGNMENT3'
-format: pptx
-editor: visual
-## A slide with smaller text {.smaller}
----
-=======
 title: "Your Presentation Title"
 author: "Zhuo Zhang, Bhavi Singh, Gen Sheng Goh"
 format:
@@ -13,7 +6,6 @@ format:
     theme: solarized
     transition: fade
     slide-number: true
-    incremental: true
 editor: visual
 ---
 
@@ -49,9 +41,6 @@ epl_recent <- epl_data %>%
   filter(Season %in% recent_seasons)
 ```
 
-
->>>>>>> 0515286d603183f1fb1f431a47058ffa632688a7
-
 ## \## Shooting to Win
 
 Shooting to Win
@@ -61,8 +50,6 @@ ETC5513 AT3
 GEN SHENG GOH 、Bhavi Singh、Zhuo Zhang
 
 ---
-
-------------------------------------------------------------------------
 
 ## CONTENT
 
@@ -88,7 +75,6 @@ Item 1
 
 ---
 
-------------------------------------------------------------------------
 
 ## Another Slide
 
@@ -99,3 +85,111 @@ Item 1
 Item 2
 
 (However, while modern football increasingly prioritizes creating scoring opportunities, it remains unclear whether more aggressive offensive styles consistently yield better outcomes. Do teams that take more shots necessarily win more matches, or can success also be achieved through more conservative or balanced approaches. This study seeks to explore the relationship between offensive output and team performance in the EPL. Specifically, we investigate whether a higher average number of shots per game correlates with a higher win rate across seasons.)
+---
+## Dataset Overview
+
+::: columns
+::: {.column width="50%" .smaller}
+
+![](data/kaggle_ss.png)
+
+The dataset contains match-level statistics for EPL football games, including **scores, shots, fouls, cards, and results**.
+
+:::
+
+::: {.column width="45%"  .smaller}
+
+Seasons used: **2015/16 to 2024/25**
+
+Extracted variables:
+
+  - `Season`
+  
+  - `HomeTeam`, `AwayTeam`
+  
+  - `FullTimeResult`
+  
+  - `HomeShots`, `AwayShots`
+
+:::
+:::
+
+---
+
+## Final Dataset and Variables
+
+```{r}
+library(kableExtra)
+
+variable_description <- tibble::tibble(
+  Variable = c("Season", "Team", "TotalMatches", "TotalShots", "TotalWins", 
+               "AvgShotsPerGame", "WinRatePercent"),
+  Description = c(
+    "The English Premier League season (e.g., '2015/16')",
+    "Name of the football team",
+    "Total number of matches played by the team that season",
+    "Total number of shots taken by the team across the season",
+    "Total number of wins recorded by the team that season",
+    "Average number of shots made by the team each game in that season",
+    "Win rate percentage (TotalWins / TotalMatches * 100)"))
+
+kbl(variable_description, caption = "Variable Descriptions of Final Dataset") %>%
+  kable_styling(full_width = FALSE, font_size = 17)
+```
+
+- The final dataset contains 200 observations and 7 variables.
+
+- **Win Rate Percent as performance indicator:** Reflects a team’s ability to outperform opponents and wins yield the most league points.
+
+---
+
+## Methodology {.smaller}
+
+```{r}
+# Get stats for home games
+home_stats <- epl_recent %>%
+  mutate(
+    Team = HomeTeam,
+    Shots = HomeShots,
+    Win = ifelse(FullTimeResult == "H", 1, 0)
+  ) %>%
+  select(Season, Team, Shots, Win)
+
+# Get stats for away games
+away_stats <- epl_recent %>%
+  mutate(
+    Team = AwayTeam,
+    Shots = AwayShots,
+    Win = ifelse(FullTimeResult == "A", 1, 0)
+  ) %>%
+  select(Season, Team, Shots, Win)
+
+# Combine datasets for home and away stats
+team_match_data <- bind_rows(home_stats, away_stats)
+
+team_season_summary <- team_match_data %>%
+  group_by(Season, Team) %>%
+  summarise(
+    TotalMatches = n(),
+    TotalShots = sum(Shots, na.rm = TRUE),
+    TotalWins = sum(Win, na.rm = TRUE),
+    AvgShotsPerGame = TotalShots / TotalMatches,
+    WinRatePercent = 100 * TotalWins / TotalMatches
+  ) %>%
+  ungroup()
+
+team_season_summary %>%
+  head(4) %>%
+  kbl(caption = "Preview of Team-Season Summary Dataset") %>%
+  kable_styling(full_width = FALSE, font_size = 16)
+```
+
+
+To explore the relationship between **offensive output** and **match success**, we conducted a season-by-season analysis of team performance in the EPL.
+
+- We calculated **Average Shots Per Game** and **Win Rate Percent** for each team in each season.
+- Each row in the dataset represents a **team-season** combination.
+- We visualized the relationship using a **scatter plot**, with:
+  - X-axis: **AvgShotsPerGame**
+  - Y-axis: **WinRatePercent**
+- This allows us to assess whether teams that shoot more tend to **win more matches**.
