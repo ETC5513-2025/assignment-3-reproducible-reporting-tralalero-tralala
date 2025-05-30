@@ -12,7 +12,7 @@ editor: visual
 #| message: false
 #| warning: false
 #| echo: false
-install.packages("Polychrome")
+
 library(tidyverse)
 library(ggplot2)
 library(Polychrome)
@@ -41,15 +41,19 @@ epl_recent <- epl_data %>%
   filter(Season %in% recent_seasons)
 ```
 
+\newpage
+
 ## Executive Summary
 
-This study examines whether a higher average number of shots per game leads to better team performance in the English Premier League (EPL). Using match-level data from the 2000/01 to 2024/25 seasons, we focus on the most recent decade to analyze the relationship between shot volume and win rate. Our results show a generally positive correlation—teams that shoot more often tend to win more matches. However, exceptions exist, suggesting that while offensive intensity helps, it does not guarantee success.
+This study examines whether a higher average number of shots per game leads to better team performance in the English Premier League (EPL). Using match-level data from the 2000/01 to 2024/25 seasons, we focus on the most recent decade to analyze the relationship between shot volume and win rate. Our results show a generally positive correlation—teams that shoot more often tend to win more matches. However, exceptions exist, suggesting that while increased offensive intensity helps, it does not guarantee success.
 
 ## Introduction
 
 Over the past two decades, the English Premier League (EPL) has undergone significant tactical transformation. Many clubs have shifted from traditionally balanced or defensive systems toward more aggressive, attack-oriented approaches. This evolution is visible in match statistics, with an upward trend in the average number of shots taken per game. Shots are commonly used as a proxy for offensive intent, and their increase suggests a broader strategic emphasis on attacking play.
 
 However, while modern football increasingly prioritizes creating scoring opportunities, it remains unclear whether more aggressive offensive styles consistently yield better outcomes. Do teams that take more shots necessarily win more matches, or can success also be achieved through more conservative or balanced approaches. This study seeks to explore the relationship between offensive output and team performance in the EPL. Specifically, we investigate whether a higher average number of shots per game correlates with a higher win rate across seasons.
+
+\newpage
 
 ## Methodology
 
@@ -78,9 +82,11 @@ ggplot(summary_by_season, aes(x = Season, y = AvgShotsPerMatch, group = 1)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
-Using match-level data from the 2000/01 to 2024/25 EPL seasons, we examine the relationship between a team's average shots per game and its win rate. Focusing on the 2015/16–2024/25 seasons, we compute per-season team averages. As shown in Figure @fig-timeplot, shots per match have risen, motivating our analysis of whether offensive intensity improves the team's performance in the league.
+Using match-level data from the 2000/01 to 2024/25 EPL seasons, we examine the relationship between a team's average shots per game and its win rate. Focusing on the 2015/16–2024/25 seasons, we compute per-season team averages. As shown in @fig-timeplot, shots per match have risen, motivating our analysis of whether offensive intensity improves the team's performance in the league.
 
 We used match-level data sourced from [Kaggle](https://www.kaggle.com/datasets/marcohuiii/english-premier-league-epl-match-data-2000-2025/data), covering EPL matches from the 2000/01 season through to 2024/25. From the full dataset, we extracted six key variables related to match outcomes and shot frequency: `Season`, `HomeTeam`, `AwayTeam`, `FullTimeResult`, `HomeShots`, and `AwayShots`. After processing, the extracted dataset contained 9,380 observations across 25 seasons.
+
+\newpage
 
 ### Data Description and Analytical Approach
 
@@ -111,6 +117,8 @@ For analysis, we focused on the 10 most recent seasons (2015/16 to 2024/25) to r
 We use **Win Rate Percent**, which is based only on number of wins, for our performance indicator because wins carry the most points in league standings and best indicate a team’s ability to outperform opponents.
 
 To explore the relationship between shot volume and success, we created a scatter plot of **Win Rate Percent** against **Average Shots Per Game**. Each point represents a team’s season, allowing us to visually assess whether teams that shoot more frequently also tend to win more matches @lepschy2018successful.
+
+\newpage
 
 ## Results
 
@@ -194,9 +202,12 @@ ggplot(
     )
 ```
 
+
 The above visualization in @fig-facetplot, we can see the relationship between the average number of shots and the winning rate of the EPL Teams across multiple seasons. We have 34 unique teams in our data and we have given distinct colors for all the teams. The scatter plot is comparing the Average Shots Per Game vs Wining rate of the teams.
 
 In @fig-facetplot, we can see that across all seasons, there is a positive trend : **teams that attempt more shots per game generally achieve higher win rates**. But, there are some case scenarios as well where a team has attempted more shots but have had a lower win rate, (e.g., Liverpool in 2023/24) season attempted 21 shots on an average but had lesser win rate in comparison to Man City who have attempted only 18 shots on an average.
+
+\newpage
 
 ## Conclusion
 
@@ -208,4 +219,4 @@ Overall, the findings support the idea that teams generating more shots tend to 
 
 -   **Top Performers & Outliers:** Comparing high-performing teams and statistical outliers may reveal unique strategies or inefficiencies that explain deviations from the overall trend.
 
-### References
+## References
