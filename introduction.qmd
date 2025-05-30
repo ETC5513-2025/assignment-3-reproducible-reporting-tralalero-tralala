@@ -4,11 +4,22 @@ author: "Zhuo Zhang, Bhavi Singh, Gen Sheng Goh"
 format:
   revealjs:
     incremental: true
-    theme: simple
+    theme: beige
     transition: fade
 editor: visual
 ---
 
+## CONTENT
+
+1.Executive Summary
+2.Introduction
+3. Methodology
+4.Results 
+5.Discussion, Conclusion &  Recommendatinos 
+6.References
+
+
+---
 ## Executive Summary {.slide data-background-color="pink"}
 
 - This study examines whether a higher average number of shots per game leads to better team performance in the English Premier League (EPL). Using match-level data from the 2000/01 to 2024/25 seasons, we focus on the most recent decade to analyze the relationship between shot volume and win rate. 
