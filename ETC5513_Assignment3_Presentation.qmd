@@ -1,6 +1,7 @@
 ---
 title: "Tralalero Tralala"
 author: "Zhuo Zhang, Bhavi Singh, Gen Sheng Goh"
+subtitle: "**Does Shooting More Lead to Winning More? An EPL Analysis**"
 format:
   revealjs:
     theme: solarized
