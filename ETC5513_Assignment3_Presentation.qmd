@@ -78,6 +78,9 @@ team_season_summary <- team_match_data %>%
 
 ## Problem Introduction {.smaller}
 ```{r, fig.align='center', out.width="80%", echo=FALSE, message=FALSE, warning=FALSE}
+#| label: fig-timeplot
+#| fig-cap: "Timeplot of Average Shots per Season in the EPL (2000/01–2024/25)"
+
 # Create variable for total number of shots each game
 epl_processed_method <- epl_data %>%
   mutate(TotalShots = HomeShots + AwayShots)
@@ -141,6 +144,9 @@ Extracted variables:
 ## Final Dataset and Variables
 
 ```{r}
+#| label: tbl-variabletable
+#| tbl-cap: Table of Variable Names for Constructed Dataset
+
 library(kableExtra)
 
 variable_description <- tibble::tibble(
@@ -155,7 +161,7 @@ variable_description <- tibble::tibble(
     "Average number of shots made by the team each game in that season",
     "Win rate percentage (TotalWins / TotalMatches * 100)"))
 
-kbl(variable_description, caption = "Variable Descriptions of Final Dataset") %>%
+kbl(variable_description) %>%
   kable_styling(full_width = FALSE, font_size = 17)
 ```
 
@@ -202,7 +208,7 @@ team_season_summary <- team_match_data %>%
 
 team_season_summary %>%
   head(4) %>%
-  kbl(caption = "Preview of Team-Season Summary Dataset") %>%
+  kbl(caption = "Table 2: Preview of Team-Season Summary Dataset") %>%
   kable_styling(full_width = FALSE, font_size = 16)
 ```
 
@@ -227,7 +233,7 @@ To explore the relationship between **offensive output** and **match success**, 
 ```{r echo=FALSE, fig.width=7, fig.height=5}
 #| label: fig-facetplot
 #| fig-cap: "Average Shots vs Win Rate by Season"
-# Facet Plot to compare the Average Shos taken vs Win rate per season by each team
+# Facet Plot to compare the Average Shots taken vs Win rate per season by each team
 
 # Number of Teams:
 number_of_teams <- length(unique(team_season_summary$Team))
@@ -294,3 +300,5 @@ ggplot(
 -   While not perfectly linear, the trend is **consistent and meaningful** across all seasons.
 
 -   To enhance the analysis, we can consider adding **more variables** like shot quality or defensive metrics for an even deeper understanding.
+
+---
