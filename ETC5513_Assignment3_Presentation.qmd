@@ -20,6 +20,7 @@ library(ggplot2)
 library(scales)
 library(kableExtra)
 library(knitr)
+library(Polychrome)
 
 knitr::opts_chunk$set(message = FALSE,
                       warning = FALSE,
@@ -40,8 +41,40 @@ recent_seasons <- c("2015/16", "2016/17", "2017/18", "2018/19", "2019/20",
 
 epl_recent <- epl_data %>%
   filter(Season %in% recent_seasons)
+
+home_stats <- epl_recent %>%
+  mutate(
+    Team = HomeTeam,
+    Shots = HomeShots,
+    Win = ifelse(FullTimeResult == "H", 1, 0)
+  ) %>%
+  select(Season, Team, Shots, Win)
+
+# Get stats for away games
+away_stats <- epl_recent %>%
+  mutate(
+    Team = AwayTeam,
+    Shots = AwayShots,
+    Win = ifelse(FullTimeResult == "A", 1, 0)
+  ) %>%
+  select(Season, Team, Shots, Win)
+
+# Combine datasets for home and away stats
+team_match_data <- bind_rows(home_stats, away_stats)
+
+team_season_summary <- team_match_data %>%
+  group_by(Season, Team) %>%
+  summarise(
+    TotalMatches = n(),
+    TotalShots = sum(Shots, na.rm = TRUE),
+    TotalWins = sum(Win, na.rm = TRUE),
+    AvgShotsPerGame = TotalShots / TotalMatches,
+    WinRatePercent = 100 * TotalWins / TotalMatches
+  ) %>%
+  ungroup()
 ```
 
+------------------------------------------------------------------------
 
 ## Problem Introduction {.smaller}
 ```{r, fig.align='center', out.width="80%", echo=FALSE, message=FALSE, warning=FALSE}
@@ -182,3 +215,82 @@ To explore the relationship between **offensive output** and **match success**, 
   - X-axis: **AvgShotsPerGame**
   - Y-axis: **WinRatePercent**
 - This allows us to assess whether teams that shoot more tend to **win more matches**.
+
+--------------------------------------------------------
+
+## Results  {.smaller}
+
+:::: {.columns}
+
+::: {.column .smaller width="60%"}
+
+```{r echo=FALSE, fig.width=7, fig.height=5}
+#| label: fig-facetplot
+#| fig-cap: "Average Shots vs Win Rate by Season"
+# Facet Plot to compare the Average Shos taken vs Win rate per season by each team
+
+# Number of Teams:
+number_of_teams <- length(unique(team_season_summary$Team))
+# Creating color palette:
+distinct_team_colors <- createPalette(number_of_teams,  
+                                      seedcolors = c("#000000", "#FFFFFF"))
+
+# Assign team names as names of the color vector
+names(distinct_team_colors) <- unique(team_season_summary$Team)
+
+ggplot(
+  team_season_summary,
+  aes(x = AvgShotsPerGame, 
+      y = WinRatePercent, 
+      color = Team)) +
+  geom_point(size = 2, alpha = 0.85) +
+  facet_wrap(~ Season, scales = "free_x") +
+  scale_color_manual(values = distinct_team_colors) +
+   scale_x_continuous(labels = number_format(accuracy = 1)) +
+  scale_y_continuous(labels = number_format(accuracy = 1)) +
+  labs(
+    x = "Average Shots Per Game",
+    y = "Win Rate (%)",
+    color = "Team"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(
+    hjust = 1, size = 6
+      ),
+    axis.text.y =  element_text(
+      hjust = 1, size = 6
+      ),
+    plot.title =  element_text(
+      size = 10, face = "bold"
+      ),
+    legend.text = element_text(size = 5)
+    )
+```
+:::
+
+::: {.column .smaller width="40%"}
+
+-   Positive Correlation: Generally, teams that take **take shots per game tend to win more.**
+
+-   **34 EPL Teams** visualized with distinct colors across multiple seasons.
+
+-   **Faceted by Season** to highlight year-on-year trends and variations.
+
+-   **Exceptions**:
+
+    -   Liverpool (2023/24) averaged **21 shots/game** but had a **lower win rate** than Man City, who averaged **18 shots/game** and won more.
+:::
+::::
+
+------------------------------------------------------------------------
+
+## Conclusions
+
+-   Analysis reveals a **strong positive relationship** between **average shots per game** and **win rate** among EPL Teams.
+
+-   Teams that generate more shots generally see better results over a season, which highlights the importance of **attacking strategies** leading the teams to success.
+
+-   While not perfectly linear, the trend is **consistent and meaningful** across all seasons.
+
+-   To enhance the analysis, we can consider adding **more variables** like shot quality or defensive metrics for an even deeper understanding.
