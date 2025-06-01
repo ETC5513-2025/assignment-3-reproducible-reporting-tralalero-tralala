@@ -77,6 +77,7 @@ team_season_summary <- team_match_data %>%
 ------------------------------------------------------------------------
 
 ## Problem Introduction {.smaller}
+
 ```{r, fig.align='center', out.width="80%", echo=FALSE, message=FALSE, warning=FALSE}
 #| label: fig-timeplot
 #| fig-cap: "Timeplot of Average Shots per Season in the EPL (2000/01–2024/25)"
@@ -100,7 +101,6 @@ ggplot(summary_by_season, aes(x = Season, y = AvgShotsPerMatch, group = 1)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
-
 Over the last two decades, the English Premier League (EPL) has seen a clear tactical shift — teams are taking more shots per game than ever before.
 
 This rise in shot volume reflects a growing emphasis on attacking play and offensive intensity.
@@ -109,37 +109,33 @@ This rise in shot volume reflects a growing emphasis on attacking play and offen
 
 This study investigates whether teams that take more shots actually perform better — or if aggressive playstyles are not necessarily rewarded with more wins
 
----
+------------------------------------------------------------------------
 
 ## Dataset Overview
 
-::: columns
-::: {.column width="50%" .smaller}
-
+::::: columns
+::: {.column .smaller width="50%"}
 ![](data/kaggle_ss.png)
 
 The dataset contains match-level statistics for EPL football games, including **scores, shots, fouls, cards, and results**.
-
 :::
 
-::: {.column width="45%"  .smaller}
-
+::: {.column .smaller width="45%"}
 Seasons used: **2015/16 to 2024/25**
 
 Extracted variables:
 
-  - `Season`
-  
-  - `HomeTeam`, `AwayTeam`
-  
-  - `FullTimeResult`
-  
-  - `HomeShots`, `AwayShots`
+-   `Season`
 
-:::
-:::
+-   `HomeTeam`, `AwayTeam`
 
----
+-   `FullTimeResult`
+
+-   `HomeShots`, `AwayShots`
+:::
+:::::
+
+------------------------------------------------------------------------
 
 ## Final Dataset and Variables
 
@@ -165,11 +161,11 @@ kbl(variable_description) %>%
   kable_styling(full_width = FALSE, font_size = 17)
 ```
 
-- The final dataset contains 200 observations and 7 variables.
+-   The final dataset contains 200 observations and 7 variables.
 
-- **Win Rate Percent as performance indicator:** Reflects a team’s ability to outperform opponents and wins yield the most league points.
+-   **Win Rate Percent as performance indicator:** Reflects a team’s ability to outperform opponents and wins yield the most league points.
 
----
+------------------------------------------------------------------------
 
 ## Methodology {.smaller}
 
@@ -212,24 +208,21 @@ team_season_summary %>%
   kable_styling(full_width = FALSE, font_size = 16)
 ```
 
-
 To explore the relationship between **offensive output** and **match success**, we conducted a season-by-season analysis of team performance in the EPL.
 
-- We calculated **Average Shots Per Game** and **Win Rate Percent** for each team in each season.
-- Each row in the dataset represents a **team-season** combination.
-- We visualized the relationship using a **scatter plot**, with:
-  - X-axis: **AvgShotsPerGame**
-  - Y-axis: **WinRatePercent**
-- This allows us to assess whether teams that shoot more tend to **win more matches**.
+-   We calculated **Average Shots Per Game** and **Win Rate Percent** for each team in each season.
+-   Each row in the dataset represents a **team-season** combination.
+-   We visualized the relationship using a **scatter plot**, with:
+    -   X-axis: **AvgShotsPerGame**
+    -   Y-axis: **WinRatePercent**
+-   This allows us to assess whether teams that shoot more tend to **win more matches**.
 
---------------------------------------------------------
+------------------------------------------------------------------------
 
-## Results  {.smaller}
+## Results {.smaller}
 
-:::: {.columns}
-
+::::: columns
 ::: {.column .smaller width="60%"}
-
 ```{r echo=FALSE, fig.width=7, fig.height=5}
 #| label: fig-facetplot
 #| fig-cap: "Average Shots vs Win Rate by Season"
@@ -276,7 +269,6 @@ ggplot(
 :::
 
 ::: {.column .smaller width="40%"}
-
 -   Positive Correlation: Generally, teams that take **take shots per game tend to win more.**
 
 -   **34 EPL Teams** visualized with distinct colors across multiple seasons.
@@ -287,7 +279,7 @@ ggplot(
 
     -   Liverpool (2023/24) averaged **21 shots/game** but had a **lower win rate** than Man City, who averaged **18 shots/game** and won more.
 :::
-::::
+:::::
 
 ------------------------------------------------------------------------
 
