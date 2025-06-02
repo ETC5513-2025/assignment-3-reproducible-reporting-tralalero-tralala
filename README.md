@@ -50,6 +50,10 @@ qualitative palettes with many (20-30 or more) colors.
 mapped to visual representations in plots, particularly in terms of breaks, 
 labels, transformations, and color palettes.
 
+All the above packages can be downloaded in RStudio using : install.packages("package_name").
+
+Please refer to the link below for documentation on the packages: https://www.rdocumentation.org
+
 ## License
 This project is licensed under MIT License - see the LICENSE file for more details. 
 
