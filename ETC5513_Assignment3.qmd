@@ -19,6 +19,7 @@ library(Polychrome)
 library(scales)
 library(kableExtra)
 library(knitr)
+library(here)
 
 knitr::opts_chunk$set(message = FALSE,
                       warning = FALSE,
@@ -27,7 +28,7 @@ knitr::opts_chunk$set(message = FALSE,
 
 ```{r}
 # Import data and filtering the variables
-epl_raw <- read.csv("data/epl_final.csv")
+epl_raw <- read.csv(here("data","epl_final.csv"))
 
 epl_data <- epl_raw %>%
   select(Season, HomeTeam, AwayTeam, FullTimeResult, HomeShots, AwayShots)
@@ -201,7 +202,6 @@ ggplot(
     legend.title = element_text(size = 6, face = "bold")
     )
 ```
-
 
 The above visualization in @fig-facetplot, we can see the relationship between the average number of shots and the winning rate of the EPL Teams across multiple seasons. We have 34 unique teams in our data and we have given distinct colors for all the teams. The scatter plot is comparing the Average Shots Per Game vs Wining rate of the teams.
 
